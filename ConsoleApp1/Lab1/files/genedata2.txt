@@ -1,6 +1,6 @@
 Ermak Dmitry
 Genetic searching
---------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 001   diff	PREDICTED: similar to double homeobox	metallothionein 2A
 amino-acids difference:
 105

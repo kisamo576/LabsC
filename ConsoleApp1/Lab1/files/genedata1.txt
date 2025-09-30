@@ -1,6 +1,6 @@
 Ermak Dmitry
 Genetic searching
---------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 001   mode	PREDICTED: similar to double homeobox
 amino-acid occurs:
 R     17

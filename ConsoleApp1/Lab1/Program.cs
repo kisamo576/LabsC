@@ -4,6 +4,16 @@ namespace ConsoleApp1.Lab1
     {
         static void Main()
         {
+            
+            GeneticData data = new GeneticData();
+        
+            GeneticData[] myArray = data.CreateArray();
+        
+            data.FindByOrganism(myArray);
+        
+            data.SortByAminoAcids(myArray);
+            
+            
             string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../Lab1/files");
             string seq0 = Path.Combine(basePath, "sequences0.txt");
             string cmd0 = Path.Combine(basePath, "commands0.txt");
@@ -74,7 +84,7 @@ namespace ConsoleApp1.Lab1
             foreach (string line in File.ReadAllLines(seqFile))
             {
                 if (string.IsNullOrWhiteSpace(line)) continue;
-                string[] parts = line.Split('\t');
+                string[] parts = line.Split('\t',StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length < 3)
                 {
                     parts = line.Split(new[] { '\t', ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -90,12 +100,13 @@ namespace ConsoleApp1.Lab1
             }
 
             RLE.CheckAminoAcids(data);
-
+float test =(float)11.2323426;
             using (StreamWriter sw = new StreamWriter(outFile))
             {
+                sw.WriteLine(test.ToString("F2"));
                 sw.WriteLine("Ermak Dmitry");
                 sw.WriteLine("Genetic searching");
-                sw.WriteLine(new string('-', 74));
+                sw.WriteLine(new string('-', 80));
 
                 string[] commands = File.ReadAllLines(cmdFile);
                 int num = 1;
@@ -150,7 +161,7 @@ namespace ConsoleApp1.Lab1
                         sw.WriteLine("UNKNOWN COMMAND");
                     }
 
-                    sw.WriteLine(new string('-', 74));
+                    sw.WriteLine(new string('-', 80));
                     num++;
                 }
             }
