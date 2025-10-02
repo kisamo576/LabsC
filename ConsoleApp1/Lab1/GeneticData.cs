@@ -7,7 +7,7 @@ namespace ConsoleApp1.Lab1
         public string AminoAcids;
 
             
-         public GeneticData(string Protein, string Organism)
+             public GeneticData(string Protein, string Organism, string AminoAcids)
          {
              this.Protein = Protein;
              this.Organism = Organism;

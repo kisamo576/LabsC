@@ -2,7 +2,7 @@ namespace ConsoleApp1.Lab1
 {
     class Program
     {
-        static void Main()
+        static void Main1()
         {
             
             GeneticData data = new GeneticData();
