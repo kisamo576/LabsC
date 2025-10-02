@@ -25,7 +25,7 @@ class Player
     {
         if(this.location == -1)
         {
-            if (steps < 0)
+            if (steps <= 0)
             {
                 this.location = size + steps;
             }

@@ -28,7 +28,13 @@ class Program
                 break;
         }
         
-        string output = "PursuitLog.txt";
+        string output = Path.Combine(basePath, "PursuitLog.txt");
+        
+        Console.WriteLine($"Input file: {input}");
+        Console.WriteLine($"Output file: {output}");
+        Console.WriteLine($"Input exists: {File.Exists(input)}");
+        Console.WriteLine($"Output exists: {File.Exists(output)}");
+        
         Game game = new Game(input, output);
         game.Run();
     }

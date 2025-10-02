@@ -7,15 +7,17 @@ class Game
     public int size;
     public Player cat;
     public Player mouse;
-    
+    public bool gameEnded;
+
     public Game(string input, string output)
     {
         this.inputFilePath = input;
         this.outputFilePath = output;
         cat = new Player("Cat");
         mouse = new Player("Mouse");
+        gameEnded = false;
     }
-    
+
     public void Run()
     {
         Console.WriteLine("Игра запущена");
@@ -25,12 +27,12 @@ class Game
             writer.WriteLine("Cat Mouse  Distance");
             writer.WriteLine("-------------------");
         }
-        
+
         using (StreamReader reader = new StreamReader(inputFilePath))
         {
             size = Convert.ToInt32(reader.ReadLine());
             string line;
-            while ((line = reader.ReadLine()) != null)
+            while ((line = reader.ReadLine()) != null && !gameEnded)
             {
                 string[] str = line.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
                 if (str[0] == "P")
@@ -43,11 +45,30 @@ class Game
                 }
             }
         }
-        
+
         Console.WriteLine("Обработка файла завершена");
+
+        using (StreamWriter writer = new StreamWriter(outputFilePath, true))
+        {
+            writer.WriteLine("-------------------\n\n");
+            writer.WriteLine("Distance traveled:   Mouse   Cat");
+            writer.WriteLine($"                     {mouse.distanceTraveled}      {cat.distanceTraveled}\n");
+
+            if (gameEnded)
+            {
+                writer.WriteLine($"Mouse caught at: {mouse.location}");
+            }
+            else
+            {
+                writer.WriteLine("Mouse evaded Cat");
+            }
+        }
+
+        Console.WriteLine("Результат записан в файл PursuitLog");
+
     }
-    
-    public void DoCommand(char command, int steps)
+
+public void DoCommand(char command, int steps)
     {
         switch (command)
         {
@@ -58,6 +79,16 @@ class Game
                 cat.Move(steps, size);
                 break;
         }
+        
+        if (cat.state == State.Playing && mouse.state == State.Playing)
+        {
+            if (cat.location == mouse.location)
+            {
+                mouse.state = State.Loser;
+                cat.state = State.Winner;
+                gameEnded = true;
+            }
+        }
     }
     
     public void DoPrintCommand()
@@ -66,15 +97,17 @@ class Game
         {
             if (cat.state == State.NotInGame)
             {
-                writer.WriteLine("??" + "  " + mouse.location);
+                writer.WriteLine("??" + "     " + mouse.location);
             }
             else if (mouse.state == State.NotInGame)
             {
-                writer.WriteLine(cat.location + "  " + "??");
+                writer.WriteLine(cat.location + "     " + "??");
             }
+            
             else
             {
-                writer.WriteLine(cat.location + "  " + mouse.location);
+                int distance = Math.Abs(mouse.location - cat.location);
+                writer.WriteLine(cat.location + "     " + mouse.location + "       " + distance);
             }
         }
     }
