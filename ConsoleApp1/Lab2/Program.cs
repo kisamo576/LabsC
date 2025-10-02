@@ -4,6 +4,10 @@ class Program
 {
     public static void Main(string[] args)
     {
+        
+        string basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../../Lab2/files");
+
+        
         Console.WriteLine("Выберите файл:\n" +
                           "1 1.ChaseData\n" +
                           "2 2.ChaseData\n" +
@@ -14,13 +18,13 @@ class Program
         switch (choice)
         {
             case 1:
-                input = "1.ChaseData.txt";
+                input = Path.Combine(basePath, "1.ChaseData.txt");
                 break;
             case 2:
-                input = "2.ChaseData.txt";
+                input = Path.Combine(basePath, "2.ChaseData.txt");
                 break;
             case 3:
-                input = "3.ChaseData.txt";
+                input = Path.Combine(basePath, "3.ChaseData.txt");
                 break;
         }
         
