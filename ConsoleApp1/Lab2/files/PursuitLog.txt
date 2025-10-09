@@ -1,0 +1,22 @@
+Cat and Mouse
+
+Cat Mouse  Distance
+-------------------
+??     2
+3     2       1
+Distance between = 1
+9     2       7
+9     12       3
+9     2       7
+8     2       6
+13     2       11
+13     14       1
+Distance between = 1
+-------------------
+
+
+Distance traveled:   Mouse   Cat
+                     25      15
+
+Mouse evaded Cat
+Distance in the end = 1

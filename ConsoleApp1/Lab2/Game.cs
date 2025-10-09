@@ -11,7 +11,7 @@ class Game
 
     public Game(string input, string output)
     {
-        this.inputFilePath = input;
+        this.inputFilePath = input; 
         this.outputFilePath = output;
         cat = new Player("Cat");
         mouse = new Player("Mouse");
@@ -45,6 +45,7 @@ class Game
                 }
             }
         }
+        
 
         Console.WriteLine("Обработка файла завершена");
 
@@ -57,10 +58,12 @@ class Game
             if (gameEnded)
             {
                 writer.WriteLine($"Mouse caught at: {mouse.location}");
+                writer.WriteLine($"Distance in the end = {Math.Abs(mouse.location - cat.location)}");
             }
             else
             {
                 writer.WriteLine("Mouse evaded Cat");
+                writer.WriteLine($"Distance in the end = {Math.Abs(mouse.location - cat.location)}");
             }
         }
 
@@ -68,18 +71,18 @@ class Game
 
     }
 
-public void DoCommand(char command, int steps)
+    public void DoCommand(char command, int steps)
     {
         switch (command)
         {
-            case 'M': 
+            case 'M':
                 mouse.Move(steps, size);
                 break;
-            case 'C': 
+            case 'C':
                 cat.Move(steps, size);
                 break;
         }
-        
+
         if (cat.state == State.Playing && mouse.state == State.Playing)
         {
             if (cat.location == mouse.location)
@@ -90,25 +93,44 @@ public void DoCommand(char command, int steps)
             }
         }
     }
-    
-    public void DoPrintCommand()
-    {
-        using (StreamWriter writer = new StreamWriter(outputFilePath, true))
+
+    int count = 0;
+
+       public void DoPrintCommand()
         {
-            if (cat.state == State.NotInGame)
+            using (StreamWriter writer = new StreamWriter(outputFilePath, true))
             {
-                writer.WriteLine("??" + "     " + mouse.location);
+
+                if (cat.state == State.NotInGame)
+                {
+                    writer.WriteLine("??" + "     " + mouse.location);
+                    count++;
+                }
+                else if (mouse.state == State.NotInGame)
+                {
+                    writer.WriteLine(cat.location + "     " + "??");
+                    count++;
+                }
+
+                else
+                {
+                    int distance = Math.Abs(mouse.location - cat.location);
+                    writer.WriteLine(cat.location + "     " + mouse.location + "       " + distance);
+                }
+
+                if (Math.Abs(mouse.location - cat.location) == 1)
+                {
+                    writer.WriteLine("Distance between = 1");
+                }
+
+
+                if (count >= 4)
+                {
+                    writer.WriteLine("Координаты не инициализированы");
+                    count = 0;
+                }
+
             }
-            else if (mouse.state == State.NotInGame)
-            {
-                writer.WriteLine(cat.location + "     " + "??");
-            }
-            
-            else
-            {
-                int distance = Math.Abs(mouse.location - cat.location);
-                writer.WriteLine(cat.location + "     " + mouse.location + "       " + distance);
-            }
+
         }
     }
-}
