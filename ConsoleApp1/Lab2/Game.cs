@@ -24,8 +24,8 @@ class Game
         using (StreamWriter writer = new StreamWriter(outputFilePath))
         {
             writer.WriteLine("Cat and Mouse\n");
-            writer.WriteLine("Cat Mouse  Distance");
-            writer.WriteLine("-------------------");
+            writer.WriteLine("Cat | Mouse | Distance    |   Message");
+            writer.WriteLine("------------------------------------------");
         }
 
         using (StreamReader reader = new StreamReader(inputFilePath))
@@ -51,14 +51,13 @@ class Game
 
         using (StreamWriter writer = new StreamWriter(outputFilePath, true))
         {
-            writer.WriteLine("-------------------\n\n");
+            writer.WriteLine("------------------------------------------\n\n");
             writer.WriteLine("Distance traveled:   Mouse   Cat");
             writer.WriteLine($"                     {mouse.distanceTraveled}      {cat.distanceTraveled}\n");
 
             if (gameEnded)
             {
                 writer.WriteLine($"Mouse caught at: {mouse.location}");
-                writer.WriteLine($"Distance in the end = {Math.Abs(mouse.location - cat.location)}");
             }
             else
             {
@@ -93,23 +92,19 @@ class Game
             }
         }
     }
-
-    int count = 0;
+    
 
        public void DoPrintCommand()
         {
             using (StreamWriter writer = new StreamWriter(outputFilePath, true))
             {
-
                 if (cat.state == State.NotInGame)
                 {
-                    writer.WriteLine("??" + "     " + mouse.location);
-                    count++;
+                    writer.WriteLine("??" + "     " + mouse.location + "                    " + "(Координаты кота не инициализированы)");
                 }
                 else if (mouse.state == State.NotInGame)
                 {
-                    writer.WriteLine(cat.location + "     " + "??");
-                    count++;
+                    writer.WriteLine(cat.location + "     " + "??" + "                   " + "(Координаты мыши не инициализированы)");
                 }
 
                 else
@@ -120,15 +115,9 @@ class Game
 
                 if (Math.Abs(mouse.location - cat.location) == 1)
                 {
-                    writer.WriteLine("Distance between = 1");
+                    writer.WriteLine("--->                         " + "Distance between = 1");
                 }
-
-
-                if (count >= 4)
-                {
-                    writer.WriteLine("Координаты не инициализированы");
-                    count = 0;
-                }
+                
 
             }
 
