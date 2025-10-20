@@ -14,39 +14,36 @@ class Player
     public State state = State.NotInGame;
     public int location;
     public int distanceTraveled;
-    
+
     public Player(string name)
     {
         this.name = name;
+        this.state = State.NotInGame;
         this.location = -1;
     }
-    
-    public void Move(int steps, int size)
+
+    public void SetInitialPosition(int position, int boardSize)
     {
-        if(this.location == -1)
+        if (this.state == State.NotInGame)
         {
-            if (steps <= 0)
-            {
-                this.location = size + steps;
-            }
-            else
-            {
-                this.location = steps;
-            }
+            this.location = NormalizePosition(position, boardSize);
             this.state = State.Playing;
         }
-        else
+    }
+
+    public void Move(int steps, int boardSize)
+    {
+        if (this.state == State.Playing)
         {
-            this.location += steps;
+            int newLocation = this.location + steps;
+            this.location = NormalizePosition(newLocation, boardSize);
             this.distanceTraveled += Math.Abs(steps);
-            if(this.location < 0)
-            {
-                this.location += size;
-            }
-            else if(this.location > size)
-            {
-                this.location -= size;
-            }
         }
+    }
+
+    private int NormalizePosition(int position, int size)
+    {
+        int normalized = ((position - 1) % size + size) % size + 1;
+        return normalized;
     }
 }

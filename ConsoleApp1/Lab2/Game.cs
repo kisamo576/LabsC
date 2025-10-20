@@ -32,9 +32,10 @@ class Game
         {
             size = Convert.ToInt32(reader.ReadLine());
             string line;
-            while ((line = reader.ReadLine()) != null && !gameEnded)
+            while ((line = reader.ReadLine()) != null)
             {
                 string[] str = line.Trim().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                
                 if (str[0] == "P")
                 {
                     DoPrintCommand();
@@ -43,6 +44,12 @@ class Game
                 {
                     DoCommand(Convert.ToChar(str[0]), Convert.ToInt32(str[1]));
                 }
+
+                if (gameEnded)
+                    {
+                        DoPrintCommand();
+                        break;
+                    }
             }
         }
         
@@ -75,10 +82,26 @@ class Game
         switch (command)
         {
             case 'M':
-                mouse.Move(steps, size);
+                if (mouse.state == State.NotInGame)
+                {
+                    mouse.SetInitialPosition(steps, size);
+                }
+                else
+                {
+                    mouse.Move(steps, size);
+                }
+
                 break;
             case 'C':
-                cat.Move(steps, size);
+                if (cat.state == State.NotInGame)
+                {
+                    cat.SetInitialPosition(steps, size);
+                }
+                else
+                {
+                    cat.Move(steps, size);
+                }
+
                 break;
         }
 
@@ -91,35 +114,35 @@ class Game
                 gameEnded = true;
             }
         }
-    }
+    } 
     
 
        public void DoPrintCommand()
         {
             using (StreamWriter writer = new StreamWriter(outputFilePath, true))
             {
-                if (cat.state == State.NotInGame)
-                {
-                    writer.WriteLine("??" + "     " + mouse.location + "                    " + "(Координаты кота не инициализированы)");
-                }
-                else if (mouse.state == State.NotInGame)
-                {
-                    writer.WriteLine(cat.location + "     " + "??" + "                   " + "(Координаты мыши не инициализированы)");
-                }
+                string catPos = (cat.state == State.NotInGame || cat.location == -1) ? "??" : cat.location.ToString();
+                string mousePos = (mouse.state == State.NotInGame || mouse.location == -1) ? "??" : mouse.location.ToString();
 
+                if (cat.state == State.NotInGame || cat.location == -1)
+                {
+                    writer.WriteLine($"{catPos}     {mousePos}                    (Координаты кота не инициализированы)");
+                }
+                else if (mouse.state == State.NotInGame ||  mouse.location == -1)
+                {
+                    writer.WriteLine($"{catPos}     {mousePos}                   (Координаты мыши не инициализированы)");
+                }
                 else
                 {
                     int distance = Math.Abs(mouse.location - cat.location);
-                    writer.WriteLine(cat.location + "     " + mouse.location + "       " + distance);
-                }
+                    writer.WriteLine($"{catPos}     {mousePos}       {distance}");
 
-                if (Math.Abs(mouse.location - cat.location) == 1)
-                {
-                    writer.WriteLine("--->                         " + "Distance between = 1");
-                }
-                
+                    if (distance == 1)
+                    {
+                        writer.WriteLine("--->                         " + "Distance between = 1");
+                    }
 
+                }
             }
-
         }
     }
