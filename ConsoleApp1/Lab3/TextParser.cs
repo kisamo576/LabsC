@@ -9,12 +9,14 @@ public static class TextParser
         var text = new Text();
         var currentSentence = new Sentence();
         var currentWord = new StringBuilder();
+        bool lastWasWord = false;
 
         foreach (char c in input)
         {
             if (char.IsLetterOrDigit(c))
             {
                 currentWord.Append(c);
+                lastWasWord = true;
             }
             else if (char.IsWhiteSpace(c))
             {
@@ -22,6 +24,13 @@ public static class TextParser
                 {
                     currentSentence.Tokens.Add(new Word {Value = currentWord.ToString()});
                     currentWord.Clear();
+                    lastWasWord = true;
+                }
+                
+                if (lastWasWord)
+                {
+                    currentSentence.Tokens.Add(new Punctuation { Value = " " });
+                    lastWasWord = false;
                 }
             }
             else if (char.IsPunctuation(c))
@@ -31,8 +40,9 @@ public static class TextParser
                     currentSentence.Tokens.Add(new Word {Value = currentWord.ToString()});
                     currentWord.Clear();
                 }
-                    
-                currentSentence.Tokens.Add(new Punctuation {Value = c.ToString()});
+                   
+                var punctuation = new Punctuation {Value = c.ToString() };
+                currentSentence.Tokens.Add(punctuation);
 
                 if (IsSentenceEndingPunctuation(c))
                 {
@@ -42,6 +52,8 @@ public static class TextParser
                         currentSentence = new Sentence();
                     }
                 }
+                
+                lastWasWord = false;
             }
         }
         

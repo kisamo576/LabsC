@@ -11,22 +11,22 @@ public class Sentence : Token
         get
         {
             var result = new StringBuilder();
-            foreach (var token in Tokens)
-            {
+            for (int i = 0; i < Tokens.Count; i++) {
+                var token = Tokens[i];
                 if (token is Word)
                 {
-                    if (result.Length > 0 && !char.IsLetterOrDigit(result[result.Length - 1]))
-                        result.Append(' ');
                     result.Append(token.Value);
-                    
                 }
                 else
                 {
+                    if (token.Value != " " && i > 0 && Tokens[i - 1].Value != " ")
+                    {
+                        result.Length--;
+                    }
                     result.Append(token.Value);
                 }
             }
-            return result.ToString();
+            return result.ToString().Trim();
         }
-        set { }
     }
 }
