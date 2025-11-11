@@ -22,14 +22,14 @@ public static class TextParser
             {
                 if (currentWord.Length > 0)
                 {
-                    currentSentence.Tokens.Add(new Word {Value = currentWord.ToString()});
+                    currentSentence.Tokens.Add(new Word (currentWord.ToString()));
                     currentWord.Clear();
                     lastWasWord = true;
                 }
                 
                 if (lastWasWord)
                 {
-                    currentSentence.Tokens.Add(new Punctuation { Value = " " });
+                    currentSentence.Tokens.Add(new Punctuation (" "));
                     lastWasWord = false;
                 }
             }
@@ -37,11 +37,11 @@ public static class TextParser
             {
                 if (currentWord.Length > 0)
                 {
-                    currentSentence.Tokens.Add(new Word {Value = currentWord.ToString()});
+                    currentSentence.Tokens.Add(new Word (currentWord.ToString()));
                     currentWord.Clear();
                 }
                    
-                var punctuation = new Punctuation {Value = c.ToString() };
+                var punctuation = new Punctuation (c.ToString());
                 currentSentence.Tokens.Add(punctuation);
 
                 if (IsSentenceEndingPunctuation(c))
@@ -58,7 +58,7 @@ public static class TextParser
         }
         
         if (currentWord.Length > 0)
-            currentSentence.Tokens.Add(new Word {Value = currentWord.ToString()});
+            currentSentence.Tokens.Add(new Word (currentWord.ToString()));
 
         if (currentSentence.Tokens.Count > 0)
             text.Sentences.Add(currentSentence);

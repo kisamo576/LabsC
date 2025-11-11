@@ -74,7 +74,7 @@ public static class TextProcessor
         {
             if (sentence.Tokens[i] is Word w && w.Value.Length == length)
             {
-                sentence.Tokens[i] = new Word { Value = replacement };
+                sentence.Tokens[i] = new Word (replacement);
             }
         }
     }

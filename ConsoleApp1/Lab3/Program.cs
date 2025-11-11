@@ -55,19 +55,19 @@ class Program
                 case "1":
                     Console.WriteLine("\nИсходный текст:");
                     foreach (var s in text.Sentences)
-                        Console.WriteLine(s.Value);
+                        Console.WriteLine(s);
                     break;
 
                 case "2":
                     Console.WriteLine("\nПо количеству слов:");
                     foreach (var s in TextProcessor.SortByWordCount(text))
-                        Console.WriteLine(s.Value);
+                        Console.WriteLine(s);
                     break;
 
                 case "3":
                     Console.WriteLine("\nПо длине предложений:");
                     foreach (var s in TextProcessor.SortByLength(text))
-                        Console.WriteLine(s.Value);
+                        Console.WriteLine(s);
                     break;
 
                 case "4":
@@ -83,7 +83,7 @@ class Program
                         TextProcessor.RemoveStopWords(text, stopWords);
                         Console.WriteLine("\nСтоп-слова удалены. Текущий текст:");
                         foreach (var s in text.Sentences)
-                            Console.WriteLine(s.Value);
+                            Console.WriteLine(s);
                     }
                     else
                     {

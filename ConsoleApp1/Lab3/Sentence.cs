@@ -5,6 +5,7 @@ namespace ConsoleApp1.Lab3;
 public class Sentence : Token
 {
     public List<Token> Tokens {get; set;} =  new List<Token>();
+    public override string ToString() => string.Join(" ", Tokens);
 
     public new string Value
     {
