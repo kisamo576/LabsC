@@ -62,7 +62,7 @@ public static class TextProcessor
                     consonants.Contains(char.ToLower(w.Value[0])))
                 {
                     sentence.Tokens.RemoveAt(i);
-                    i--; // чтобы не пропустить следующий токен
+                    i--;
                 }
             }
         }
