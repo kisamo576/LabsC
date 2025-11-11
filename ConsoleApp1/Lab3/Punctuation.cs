@@ -8,11 +8,6 @@ public class Punctuation  : Token
     {
         Value = value;
     }
-
-    public Punctuation()
-    {
-        
-    }
     
     public override string ToString() => Value;
 }

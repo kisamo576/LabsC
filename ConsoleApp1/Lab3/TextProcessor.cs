@@ -49,36 +49,6 @@ public static class TextProcessor
         return found;
     }
     
-    public static void RemoveConsonantWords(Text text, int length)
-    {
-        string consonants = "бвгджзйклмнпрстфхцчшщbcdfghjklmnpqrstvwxyz";
-
-        foreach (var sentence in text.Sentences)
-        {
-            for (int i = 0; i < sentence.Tokens.Count; i++)
-            {
-                if (sentence.Tokens[i] is Word w &&
-                    w.Value.Length == length &&
-                    consonants.Contains(char.ToLower(w.Value[0])))
-                {
-                    sentence.Tokens.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-    }
-    
-    public static void ReplaceWordsInSentence(Sentence sentence, int length, string replacement)
-    {
-        for (int i = 0; i < sentence.Tokens.Count; i++)
-        {
-            if (sentence.Tokens[i] is Word w && w.Value.Length == length)
-            {
-                sentence.Tokens[i] = new Word (replacement);
-            }
-        }
-    }
-    
     public static void RemoveStopWords(Text text, IEnumerable<string> stopWords)
     {
         var stopList = new List<string>();

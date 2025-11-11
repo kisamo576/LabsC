@@ -9,10 +9,5 @@ public class Word : Token
         Value = value;
     }
 
-    public Word()
-    {
-        
-    }
-    
     public override string ToString() => Value;
 }
