@@ -11,18 +11,17 @@ public class Sentence : Token
         get
         {
             var result = new StringBuilder();
-            for (int i = 0; i < Tokens.Count; i++) {
+            for (int i = 0; i < Tokens.Count; i++) 
+            {
                 var token = Tokens[i];
                 if (token is Word)
                 {
+                    if (result.Length > 0)
+                        result.Append(" ");
                     result.Append(token.Value);
                 }
-                else
+                else if (token is Punctuation) 
                 {
-                    if (token.Value != " " && i > 0 && Tokens[i - 1].Value != " ")
-                    {
-                        result.Length--;
-                    }
                     result.Append(token.Value);
                 }
             }

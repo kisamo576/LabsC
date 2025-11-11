@@ -48,7 +48,7 @@ public static class TextParser
                 {
                     if (currentSentence.Tokens.Count > 0)
                     {
-                        text.sentences.Add(currentSentence);
+                        text.Sentences.Add(currentSentence);
                         currentSentence = new Sentence();
                     }
                 }
@@ -61,7 +61,7 @@ public static class TextParser
             currentSentence.Tokens.Add(new Word {Value = currentWord.ToString()});
 
         if (currentSentence.Tokens.Count > 0)
-            text.sentences.Add(currentSentence);
+            text.Sentences.Add(currentSentence);
         
         return text;
     }
