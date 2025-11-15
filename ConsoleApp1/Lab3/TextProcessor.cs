@@ -68,4 +68,67 @@ public static class TextProcessor
             }
         }
     }
+    
+    public static int RemoveWordsByLengthAndConsonant(Text text, int length)
+    {
+        string consonants = "бвгджзйклмнпрстфхцчшщbcdfghjklmnpqrstvwxyz";
+        int removedCount = 0;
+        var removedWords = new List<string>();
+
+        foreach (var sentence in text.Sentences)
+        {
+            for (int i = sentence.Tokens.Count - 1; i >= 0; i--)
+            {
+                if (sentence.Tokens[i] is Word word && 
+                    word.Value.Length == length &&
+                    !string.IsNullOrEmpty(word.Value) &&
+                    consonants.Contains(char.ToLower(word.Value[0])))
+                {
+                    removedWords.Add(word.Value);
+                    sentence.Tokens.RemoveAt(i);
+                    removedCount++;
+                }
+            }
+        }
+        
+        if (removedWords.Count > 0)
+        {
+            Console.WriteLine($"\nУдаленные слова:");
+            Console.WriteLine(string.Join(", ", removedWords));
+        }
+        else
+        {
+            Console.WriteLine("\nСлов для удаления не найдено");
+        }
+
+        return removedCount;
+    }
+
+    public static int ReplaceWordsInSentence(Sentence sentence, int length, string replacement)
+    {
+        int replacedCount = 0;
+        var replacedWords = new List<string>();
+        
+        for (int i = 0; i < sentence.Tokens.Count; i++)
+        {
+            if (sentence.Tokens[i] is Word word && word.Value.Length == length)
+            {
+                replacedWords.Add(word.Value);
+                sentence.Tokens[i] = new Word(replacement);
+                replacedCount++;
+            }
+        }
+        
+        if (replacedWords.Count > 0)
+        {
+            Console.WriteLine($"\nЗамененные слова ({replacedWords.Count}):");
+            Console.WriteLine(string.Join(", ", replacedWords));
+            Console.WriteLine($"На: \"{replacement}\"");
+        }
+        else
+        {
+            Console.WriteLine("\nСлов для замены не найдено");
+        }
+        return replacedCount;
+    }
 }

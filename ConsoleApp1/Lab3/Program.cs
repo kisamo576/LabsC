@@ -44,6 +44,8 @@ class Program
             Console.WriteLine("3 - Сортировать по длине предложений");
             Console.WriteLine("4 - Найти слова длины 4 в вопросительных предложениях");
             Console.WriteLine("5 - Удалить стоп-слова");
+            Console.WriteLine("6 - Удалить слова заданной длины (согласные)");
+            Console.WriteLine("7 - Заменить слова в предложении");
             Console.WriteLine("0 - Выход");
             Console.Write("Выбор: ");
             string option = Console.ReadLine() ?? "";
@@ -88,6 +90,53 @@ class Program
                     else
                     {
                         Console.WriteLine($"Файл {stopFile} не найден!");
+                    }
+                    break;
+                
+                case "6":
+                    Console.WriteLine("\n=== УДАЛЕНИЕ СЛОВ ПО ДЛИНЕ И СОГЛАСНОЙ ===");
+                    Console.Write("Введите длину слов для удаления: ");
+                    if (int.TryParse(Console.ReadLine(), out int deleteLength) && deleteLength > 0)
+                    {
+                        int removedCount = TextProcessor.RemoveWordsByLengthAndConsonant(text, deleteLength);
+                        Console.WriteLine($"Удалено слов: {removedCount}");
+                        Console.WriteLine("Обновленный текст:");
+                        foreach (var sentence in text.Sentences)
+                            Console.WriteLine(sentence);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ошибка: введите корректную длину!");
+                    }
+                    break;
+
+                case "7":
+                    Console.WriteLine("\n=== ЗАМЕНА СЛОВ В ПРЕДЛОЖЕНИИ ===");
+                    Console.Write("Введите номер предложения (начиная с 1): ");
+                    if (int.TryParse(Console.ReadLine(), out int sentenceNum) && sentenceNum > 0 && sentenceNum <= text.Sentences.Count)
+                    {
+                        Console.Write("Введите длину слов для замены: ");
+                        if (int.TryParse(Console.ReadLine(), out int replaceLength) && replaceLength > 0)
+                        {
+                            Console.Write("Введите подстроку для замены: ");
+                            string replacement = Console.ReadLine() ?? "";
+            
+                            var sentence = text.Sentences[sentenceNum - 1];
+                            int replacedCount = TextProcessor.ReplaceWordsInSentence(sentence, replaceLength, replacement);
+            
+                            Console.WriteLine($"Заменено слов: {replacedCount}");
+                            Console.WriteLine("Обновленный текст:");
+                            foreach (var s in text.Sentences)
+                                Console.WriteLine(s);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ошибка: введите корректную длину!");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ошибка: предложение с таким номером не найдено!");
                     }
                     break;
 
