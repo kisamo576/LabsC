@@ -2,7 +2,7 @@ namespace ConsoleApp1.Lab3;
 
 public class Punctuation  : Token
 {
-    public string Value {get; set;}
+    public Punctuation() { }
 
     public Punctuation(string value)
     {

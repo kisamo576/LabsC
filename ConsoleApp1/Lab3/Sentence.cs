@@ -2,31 +2,41 @@ using System.Text;
 
 namespace ConsoleApp1.Lab3;
 
-public class Sentence : Token
+public class Sentence
 {
     public List<Token> Tokens {get; set;} =  new List<Token>();
-    public override string ToString() => string.Join(" ", Tokens);
+    public override string ToString() {
+        
+        var sb = new StringBuilder();
 
-    public new string Value
-    {
-        get
+        for (int i = 0; i < Tokens.Count; i++)
         {
-            var result = new StringBuilder();
-            for (int i = 0; i < Tokens.Count; i++) 
+            var token = Tokens[i];
+
+            if (token is Word w)
             {
-                var token = Tokens[i];
-                if (token is Word)
+                if (sb.Length > 0)
+                    sb.Append(" ");
+
+                sb.Append(w.Value);
+            }
+            else if (token is Punctuation p)
+            {
+                if (".!?:;-".Contains(p.Value))
                 {
-                    if (result.Length > 0)
-                        result.Append(" ");
-                    result.Append(token.Value);
+                    sb.Append(p.Value);
+                    
+                    if (p.Value == ",")
+                        sb.Append(" ");
                 }
-                else if (token is Punctuation) 
+                else
                 {
-                    result.Append(token.Value);
+                    sb.Append(p.Value);
                 }
             }
-            return result.ToString().Trim();
         }
+
+        return sb.ToString();
     }
-}
+    public string Value => ToString();
+    }

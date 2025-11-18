@@ -2,7 +2,7 @@ namespace ConsoleApp1.Lab3;
 
 public class Word : Token
 {
-    public string Value { get; set; }
+    public Word()  { }
 
     public Word(string value)
     {

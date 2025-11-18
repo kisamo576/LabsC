@@ -7,7 +7,7 @@ class Program
         Console.WriteLine("Выберите язык текста:");
         Console.WriteLine("1 - Английский");
         Console.WriteLine("2 - Русский");
-        Console.Write("Ваш выбор: ");
+        Console.Write("Ваш выбор:  \n");
         string choice = Console.ReadLine() ?? "1";
 
         string textData;
@@ -55,7 +55,7 @@ class Program
             switch (option)
             {
                 case "1":
-                    Console.WriteLine("\nИсходный текст:");
+                    Console.WriteLine("\nТекст:");
                     foreach (var s in text.Sentences)
                         Console.WriteLine(s);
                     break;
@@ -94,7 +94,7 @@ class Program
                     break;
                 
                 case "6":
-                    Console.WriteLine("\n=== УДАЛЕНИЕ СЛОВ ПО ДЛИНЕ И СОГЛАСНОЙ ===");
+                    Console.WriteLine("\nУдаление слов по длине начиная с согласной");
                     Console.Write("Введите длину слов для удаления: ");
                     if (int.TryParse(Console.ReadLine(), out int deleteLength) && deleteLength > 0)
                     {
@@ -111,7 +111,7 @@ class Program
                     break;
 
                 case "7":
-                    Console.WriteLine("\n=== ЗАМЕНА СЛОВ В ПРЕДЛОЖЕНИИ ===");
+                    Console.WriteLine("\nЗамена слов в предложении");
                     Console.Write("Введите номер предложения (начиная с 1): ");
                     if (int.TryParse(Console.ReadLine(), out int sentenceNum) && sentenceNum > 0 && sentenceNum <= text.Sentences.Count)
                     {
