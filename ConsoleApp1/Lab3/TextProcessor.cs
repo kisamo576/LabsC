@@ -28,7 +28,24 @@ public static class TextProcessor
     public static List<Sentence> SortByLength(Text text)
     {
         var result = new List<Sentence>(text.Sentences);
-        result.Sort((a, b) => a.Value.Length.CompareTo(b.Value.Length));
+        //result.Sort((a, b) => a.Value.Length.CompareTo(b.Value.Length));
+
+        for (int i = 0; i < result.Count - 1; i++)
+        {
+            for (int j = 0; j < result.Count - 1 - i; j++)
+            {
+                int lengthA = result[j].Value.Length;
+                int lengthB = result[j + 1].Value.Length;
+
+                if (lengthA > lengthB)
+                {
+                    var temp = result[j];
+                    result[j] = result[j + 1];
+                    result[j + 1] = temp;
+                }
+            }
+            
+        }
         return result;
     }
     
