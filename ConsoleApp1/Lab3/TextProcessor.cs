@@ -5,8 +5,23 @@ public static class TextProcessor
     public static List<Sentence> SortByWordCount(Text text)
     {
         var result = new List<Sentence>(text.Sentences);
-        result.Sort((a, b) =>
-            a.Tokens.OfType<Word>().Count().CompareTo(b.Tokens.OfType<Word>().Count()));
+        // result.Sort((a, b) =>
+        //   a.Tokens.OfType<Word>().Count().CompareTo(b.Tokens.OfType<Word>().Count()));
+         for (int i = 0; i < result.Count - 1; i++)
+         {
+             for (int j = 0; j < result.Count - 1 - i; j++)
+             {
+                 int countA = result[j].Tokens.OfType<Word>().Count();
+                 int countB = result[j + 1].Tokens.OfType<Word>().Count();
+
+                 if (countA > countB)
+                 {
+                     var temp = result[j];
+                     result[j] = result[j + 1];
+                     result[j + 1] = temp;
+                 }
+             }
+         }
         return result;
     }
     
