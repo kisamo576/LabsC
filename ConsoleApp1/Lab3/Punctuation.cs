@@ -17,8 +17,7 @@ public class Punctuation  : Token
         foreach (Token token in PunctuationTokens)
         {
             punctuation= base.ToString() + token.ToString();
-        }
-return punctuation;
-        
+        } 
+        return punctuation;
     }
 }

@@ -5,37 +5,37 @@ class Program
     static void Main()
     {
         Console.WriteLine("Выберите язык текста:");
-        Console.WriteLine("1 - Английский");
-        Console.WriteLine("2 - Русский");
+        Console.WriteLine("1 - Русский");
+        Console.WriteLine("2 - Английский");
         Console.Write("Ваш выбор:  \n");
-        string choice = Console.ReadLine() ?? "1";
+        string choice = (Console.ReadLine() ?? "1");
+        Text text = new Text();
 
-        string textData;
-        string stopFile;
+        string textData = "";
+        string stopFile = "";
 
-        if (choice == "2")
+        switch (choice)
         {
-            stopFile = "C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\stopwords_ru.txt";
-            textData = "лвщалыв воаыво ышвоащшыо вывш оаывщш оывшао ывщшо щывшоа щывоывшоа щшыващш оывшаоывщшо ащашыщшо вшоа ывщоаш ывош аоышоваывшоыв" +
-                       "Привет! Как дела? Сегодня мы будем изучать C#. " +
-                       "C# — это современный язык программирования. " +
-                       "Можно ли написать программу быстро? " +
-                       "Многие разработчики любят C#. " +
-                       "Например, Вася создал проект на C#. " +
-                       "Сколько времени занимает изучение C#? ";
+            case "1":
+            {
+                using (StreamReader sr = new StreamReader("C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\text_ru.txt"))
+                {
+                    textData = sr.ReadToEnd();
+                }
+                text = TextParser.Parse(textData);
+                break;
+            }
+            
+            case "2":
+            {
+                using (StreamReader sr = new StreamReader("C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\text_en.txt"))
+                       {
+                           textData = sr.ReadToEnd();
+                       }
+                text = TextParser.Parse(textData);
+                break;
+            }
         }
-        else
-        {
-            stopFile = "C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\stopwords_en.txt";
-            textData = "Hello! How are you? Today we will study C#. " +
-                       "C# is a modern programming language. " +
-                       "Can we write a program quickly? " +
-                       "Many developers love C#. " +
-                       "For example, John created a project in C#. " +
-                       "How long does it take to learn C#?";
-        }
-
-        var text = TextParser.Parse(textData);
 
         while (true)
         {
@@ -56,52 +56,70 @@ class Program
             switch (option)
             {
                 case "1":
-                    Console.WriteLine("\nТекст:");
-                    foreach (var s in text.Sentences)
+                    Console.WriteLine("\nТекст:"); 
+                    
+                    foreach (var s in text.Sentences) 
                         Console.WriteLine(s);
                     break;
 
-                case "2":
-                    Console.WriteLine("\nПо количеству слов:");
-                    foreach (var s in TextProcessor.SortByWordCount(text))
+                case "2": 
+                    Console.WriteLine("\nПо количеству слов:"); 
+                    
+                    foreach (var s in TextProcessor.SortByWordCount(text)) 
                         Console.WriteLine(s);
                     break;
 
-                case "3":
-                    Console.WriteLine("\nПо длине предложений:");
+                case "3": 
+                    Console.WriteLine("\nПо длине предложений:"); 
+                    
                     foreach (var s in TextProcessor.SortByLength(text))
-                        Console.WriteLine(s);
+                      Console.WriteLine(s);
                     break;
 
                 case "4":
                     Console.WriteLine("\nСлова длины 4 в вопросительных предложениях:");
-                    foreach (var w in TextProcessor.FindWordsInQuestions(text, 4))
-                        Console.WriteLine(w);
+                    
+                    foreach (string w in TextProcessor.FindWordsInQuestions(text, 4))
+                      Console.WriteLine(w);
                     break;
 
                 case "5":
+                    if (choice == "1")
+                    {
+                        stopFile = "C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\stopwords_ru.txt";
+                    }
+                    else if (choice == "2")
+                    {
+                        stopFile = "C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\stopwords_en.txt";
+                    }
+
                     if (File.Exists(stopFile))
                     {
-                        var stopWords = File.ReadAllLines(stopFile);
+                        string[] stopWords = File.ReadAllLines(stopFile);
                         TextProcessor.RemoveStopWords(text, stopWords);
-                        Console.WriteLine("\nСтоп-слова удалены. Текущий текст:");
-                        foreach (var s in text.Sentences)
+                        Console.WriteLine("\nТекст с удалёнными стоп-словами: ");
+
+                        foreach (var s  in text.Sentences)
+                        {
                             Console.WriteLine(s);
+                        }
                     }
                     else
                     {
-                        Console.WriteLine($"Файл {stopFile} не найден!");
+                        Console.WriteLine($"Файл {stopFile} не найден");
                     }
+                    
                     break;
                 
-                case "6":
-                    Console.WriteLine("\nУдаление слов по длине начиная с согласной");
-                    Console.Write("Введите длину слов для удаления: ");
+                case "6": 
+                    Console.WriteLine("\nУдаление слов по длине начиная с согласной"); 
+                    Console.Write("Введите длину слов для удаления: "); 
                     if (int.TryParse(Console.ReadLine(), out int deleteLength) && deleteLength > 0)
                     {
                         int removedCount = TextProcessor.RemoveWordsByLengthAndConsonant(text, deleteLength);
                         Console.WriteLine($"Удалено слов: {removedCount}");
                         Console.WriteLine("Обновленный текст:");
+                        
                         foreach (var sentence in text.Sentences)
                             Console.WriteLine(sentence);
                     }
@@ -126,8 +144,9 @@ class Program
                             int replacedCount = TextProcessor.ReplaceWordsInSentence(sentence, replaceLength, replacement);
             
                             Console.WriteLine($"Заменено слов: {replacedCount}");
-                            Console.WriteLine("Обновленный текст:");
-                            foreach (var s in text.Sentences)
+                            Console.WriteLine("Обновленный текст:"); 
+                            
+                            foreach (var s in text.Sentences) 
                                 Console.WriteLine(s);
                         }
                         else
@@ -140,9 +159,10 @@ class Program
                         Console.WriteLine("Ошибка: предложение с таким номером не найдено!");
                     }
                     break;
+                
 
-                default:
-                    Console.WriteLine("Неверный выбор.");
+                default: 
+                    Console.WriteLine("Неверный выбор."); 
                     break;
             }
         }

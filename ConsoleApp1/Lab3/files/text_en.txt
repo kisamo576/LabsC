@@ -1,0 +1,6 @@
+Hello! How are you? Today we will study C#.
+C# is a modern programming language.
+Can we write a program quickly?
+Many developers love C#.
+For example, John created a project in C#.
+How long does it take to learn C#?

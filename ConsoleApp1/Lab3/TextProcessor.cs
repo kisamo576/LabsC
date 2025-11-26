@@ -81,10 +81,10 @@ public static class TextProcessor
         return found;
     }
     
-    public static void RemoveStopWords(Text text, IEnumerable<string> stopWords)
+    public static void RemoveStopWords(Text text, string[] stopWords)
     {
         var stopList = new List<string>();
-        foreach (var s in stopWords)
+        foreach (string s in stopWords)
             stopList.Add(s.Trim().ToLower());
 
         foreach (var sentence in text.Sentences)
@@ -140,6 +140,9 @@ public static class TextProcessor
     {
         int replacedCount = 0;
         var replacedWords = new List<string>();
+        int totalcharschanged = 0;
+        int waswordcharchanged = 0;
+        int newcharchanged = 0;
         
         for (int i = 0; i < sentence.Tokens.Count; i++)
         {
@@ -148,19 +151,27 @@ public static class TextProcessor
                 replacedWords.Add(word.Value);
                 sentence.Tokens[i] = new Word(replacement);
                 replacedCount++;
+                waswordcharchanged = word.Value.Length * replacedCount;
+                newcharchanged = replacement.Length * replacedCount; 
+                totalcharschanged = Math.Abs(waswordcharchanged - newcharchanged);
             }
+            
         }
         
         if (replacedWords.Count > 0)
         {
-            Console.WriteLine($"\nЗамененные слова ({replacedWords.Count}):");
+            Console.WriteLine($"Замененные слова:");
             Console.WriteLine(string.Join(", ", replacedWords));
-            Console.WriteLine($"На: \"{replacement}\"");
+            Console.WriteLine($"На: {replacement}");
+            Console.WriteLine($"Символов было: " + waswordcharchanged);
+            Console.WriteLine($"Символов стало: " + newcharchanged);
+            Console.WriteLine($"Разница: " + totalcharschanged);
+            
         }
         else
         {
             Console.WriteLine("\nСлов для замены не найдено");
         }
         return replacedCount;
-    }
+        } 
 }

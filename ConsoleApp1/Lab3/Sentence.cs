@@ -38,5 +38,5 @@ public class Sentence
 
         return sb.ToString();
     }
-    public string Value => ToString(); ////
+    public string Value => ToString(); 
     }
