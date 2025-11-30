@@ -1,10 +1,26 @@
 using System.Text;
+using System.Xml.Serialization;
 
 namespace ConsoleApp1.Lab3;
 
 public class Sentence
 {
+    [XmlIgnore]
     public List<Token> Tokens {get; set;} =  new List<Token>();
+
+    [XmlElement("word")]
+    public List<string> XmlWords
+    {
+        get
+        {
+            return Tokens.OfType<Word>().Select(w => w.Value).ToList();
+        }
+        set
+        {
+            
+        }
+    }
+    
     public override string ToString() {
         
         var sb = new StringBuilder();

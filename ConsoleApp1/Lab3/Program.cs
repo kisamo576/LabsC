@@ -1,7 +1,19 @@
 using ConsoleApp1.Lab3;
+using System.Xml.Serialization;
 
 class Program
 {
+    private static void ExportToXml(Text text, string path)
+    {
+        var serializer = new XmlSerializer(typeof(Text));
+
+        using (StreamWriter sw = new StreamWriter(path))
+        {
+            serializer.Serialize(sw, text);
+        }
+
+        Console.WriteLine("\nФайл успешно сохранён! ");
+    }
     static void Main()
     {
         Console.WriteLine("Выберите язык текста:");
@@ -47,6 +59,7 @@ class Program
             Console.WriteLine("5 - Удалить стоп-слова");
             Console.WriteLine("6 - Удалить слова заданной длины (согласные)");
             Console.WriteLine("7 - Заменить слова в предложении");
+            Console.WriteLine("8 - Экспортировать в XML");
             Console.WriteLine("0 - Выход");
             Console.Write("Выбор: ");
             string option = Console.ReadLine() ?? "";
@@ -159,6 +172,11 @@ class Program
                         Console.WriteLine("Ошибка: предложение с таким номером не найдено!");
                     }
                     break;
+                
+                case  "8":
+                    ExportToXml(text, "C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\output.xml");
+                    break;
+                    
                 
 
                 default: 
