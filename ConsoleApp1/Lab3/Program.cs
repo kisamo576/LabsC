@@ -35,6 +35,7 @@ class Program
                     textData = sr.ReadToEnd();
                 }
                 text = TextParser.Parse(textData);
+                text.Fulltext = textData;
                 break;
             }
             
@@ -45,6 +46,7 @@ class Program
                            textData = sr.ReadToEnd();
                        }
                 text = TextParser.Parse(textData);
+                text.Fulltext =  textData;
                 break;
             }
         }
@@ -60,6 +62,7 @@ class Program
             Console.WriteLine("6 - Удалить слова заданной длины (согласные)");
             Console.WriteLine("7 - Заменить слова в предложении");
             Console.WriteLine("8 - Экспортировать в XML");
+            Console.WriteLine("9 - Создать конкорданс");
             Console.WriteLine("0 - Выход");
             Console.Write("Выбор: ");
             string option = Console.ReadLine() ?? "";
@@ -176,9 +179,11 @@ class Program
                 case  "8":
                     ExportToXml(text, "C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\output.xml");
                     break;
-                    
                 
-
+                case "9":
+                    TextProcessor.BuildConcordance(text);
+                    break;
+                
                 default: 
                     Console.WriteLine("Неверный выбор."); 
                     break;

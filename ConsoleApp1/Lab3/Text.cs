@@ -7,6 +7,9 @@ public class Text
 {
     [XmlElement("sentence")]
     public List<Sentence> Sentences { get; set; } =  new List<Sentence>();
+    
+    [XmlIgnore]
+    public string Fulltext { get; set; }
 
     public override string ToString()
     {

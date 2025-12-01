@@ -174,4 +174,83 @@ public static class TextProcessor
         }
         return replacedCount;
         } 
+    
+    public static void BuildConcordance (Text text)
+    {
+        var concordance = new Dictionary<string,(int count, List<int> lines)>();
+        string[] alllines = text.Fulltext.Split('\n');
+        
+        int LineNumber = 1;
+
+        foreach (string line in alllines)
+        {
+            if (string.IsNullOrEmpty(line))
+            {
+                LineNumber++;
+                continue;
+            }
+            
+            string[] words = line.Split(new[] { ' ', ',', '.', '!', '?', ';', ':', '(', ')', '[', ']', '{', '}', '"', '\'' }, StringSplitOptions.RemoveEmptyEntries);
+            
+            var wordInLine = new List<string>();
+
+            foreach (string word in words)
+            {
+                string cleanWord = "";
+                string lowerWord = word.ToLower().Trim();
+
+                foreach (char c in lowerWord)
+                {
+                    if (char.IsLetterOrDigit(c))
+                    {
+                        cleanWord += c;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(cleanWord))
+                {
+                    continue;
+                }
+
+                if (!concordance.ContainsKey(cleanWord))
+                {
+                    concordance[cleanWord] = (0, new List<int>());
+                }
+                
+                var tuple = concordance[cleanWord];
+                concordance[cleanWord] = (tuple.count + 1, tuple.lines);
+
+                if (!wordInLine.Contains(cleanWord))
+                {
+                    concordance[cleanWord].lines.Add(LineNumber);
+                    wordInLine.Add(cleanWord);
+                }
+            }
+
+            LineNumber++;
+        }
+        
+        var sortedKeys = new List<string>(concordance.Keys);
+        sortedKeys.Sort();
+        
+            Console.WriteLine("\nКонкорданс: ");
+
+            foreach (string word in sortedKeys)
+            {
+                int totalCount = concordance[word].count;
+                List<int> linesNumber = concordance[word].lines;
+                
+                linesNumber.Sort();
+
+                string LineNumberStr = string.Join(", ", linesNumber);
+                
+                int dotsCount = 20 - word.Length;
+                if (dotsCount < 0) dotsCount = 1;
+                string dots = new string('.', dotsCount);
+                
+                Console.WriteLine($"{word} {dots} {totalCount}: {LineNumberStr}");
+            }
+        Console.WriteLine("Конкорсданс готов!");
+        
+    }
 }

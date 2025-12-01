@@ -1,10 +1,11 @@
+using System.Xml.Serialization;
+
 namespace ConsoleApp1.Lab3;
 
 public class Punctuation  : Token
 {
     public List<Token> PunctuationTokens { get; set; }
     
-
     public Punctuation(string value)
     {
         Value = value;
