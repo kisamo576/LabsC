@@ -1,3 +1,4 @@
+using System.Diagnostics.Tracing;
 using ConsoleApp1.Lab3;
 using System.Xml.Serialization;
 
@@ -36,6 +37,8 @@ class Program
                 }
                 text = TextParser.Parse(textData);
                 text.Fulltext = textData;
+                text.Lines = new List<String>();
+                text.Lines = textData.Split('\n').ToList();
                 break;
             }
             
@@ -46,7 +49,9 @@ class Program
                            textData = sr.ReadToEnd();
                        }
                 text = TextParser.Parse(textData);
-                text.Fulltext =  textData;
+                text.Fulltext = textData;
+                text.Lines = new List<String>();
+                text.Lines = textData.Split('\n').ToList();
                 break;
             }
         }

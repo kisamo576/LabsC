@@ -4,21 +4,15 @@ namespace ConsoleApp1.Lab3;
 
 public class Punctuation  : Token
 {
-    public List<Token> PunctuationTokens { get; set; }
-    
     public Punctuation(string value)
     {
+        if (string.IsNullOrEmpty(value) || value.Length > 3)
+            throw new ArgumentException("Punctuation должен быть одним знаком или многоточием");
         Value = value;
-        PunctuationTokens = new List<Token>();
     }
 
-    public override string ToString()
+    public bool IsSentenceEnding()
     {
-        string punctuation = "";
-        foreach (Token token in PunctuationTokens)
-        {
-            punctuation= base.ToString() + token.ToString();
-        } 
-        return punctuation;
+        return Value == "." || Value == "!" ||  Value == "?" || Value == "...";
     }
 }

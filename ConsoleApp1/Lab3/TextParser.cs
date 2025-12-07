@@ -1,18 +1,24 @@
 using System.Text;
+using System.Collections.Generic;
 
 namespace ConsoleApp1.Lab3;
 
-public static class TextParser
+public  class TextParser
 {
     public static Text Parse(string input)
     {
         var text = new Text();
+        text.Fulltext = input;
+        text.Lines = input.Split('\n').ToList();
+
         var currentSentence = new Sentence();
         var currentWord = new StringBuilder();
 
-        foreach (char c in input)
+        for (int i = 0; i < input.Length; i++)
         {
-            if (char.IsLetterOrDigit(c))
+            char c = input[i];
+            
+            if (char.IsLetterOrDigit(c) || c == '_' || c == '#' || c == '+' || c == '-' || c == '(' || c == ')')
             {
                 currentWord.Append(c);
             }
@@ -20,32 +26,35 @@ public static class TextParser
             {
                 if (currentWord.Length > 0)
                 {
-                    currentSentence.Tokens.Add(new Word (currentWord.ToString()));
+                    currentSentence.Add(new Word(currentWord.ToString()));
                     currentWord.Clear();
                 }
-            }
-            
-            if (char.IsPunctuation(c))
-            {
-                    currentSentence.Tokens.Add(new Punctuation(c.ToString()));
 
-                if (IsSentenceEndingPunctuation(c))
+                if (char.IsWhiteSpace(c))
                 {
-                        text.Sentences.Add(currentSentence);
-                        currentSentence = new Sentence();
-                    
+                    currentSentence.Add(new Punctuation(" "));
+                    continue;
+                }
+
+                var punctuation = new Punctuation(c.ToString());
+                currentSentence.Add(punctuation);
+
+                if (punctuation.IsSentenceEnding())
+                {
+                    if (currentSentence.Tokens.Count > 0)
+                        text.Add(currentSentence);
+
+                    currentSentence = new Sentence();
                 }
             }
         }
 
-        if (currentSentence.Tokens.Count > 0)
-            text.Sentences.Add(currentSentence);
-        
-        return text;
-    }
+        if (currentWord.Length > 0)
+            currentSentence.Add(new Word(currentWord.ToString()));
 
-    private static bool IsSentenceEndingPunctuation(char c)
-    {
-        return c == '.' || c == '!' || c == '?' || c == '…';
+        if (currentSentence.Tokens.Count > 0)
+            text.Add(currentSentence);
+
+        return text;
     }
 }

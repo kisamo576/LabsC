@@ -8,16 +8,4 @@ public abstract class Token
     {
         return Value;
     }
-
-    // public interface IWork
-    // {
-    //     public static List<Sentence> SortByWordCount(Text text);
-    //
-    // }
-
-    // public class worker : IWork
-    // {
-    //     //IEnumerable<>
-    //         
-    // }
 }
