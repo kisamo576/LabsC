@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace ConsoleApp1.Lab3;
 
 public static class TextProcessor
@@ -75,19 +73,14 @@ public static class TextProcessor
 
     public static void RemoveStopWords(Text text, string[] stopWords)
     {
-        var stopList = new List<string>();
-
-        foreach (string s in stopWords)
-        {
-            stopList.Add(s.Trim().ToLower());
-        }
+        string[] stopList = stopWords.Select(s => s.ToLower()).ToArray();
 
         foreach (var sentence in text.Sentences)
         {
             for (int i = 0; i < sentence.Tokens.Count; i++)
             {
-                if (sentence.Tokens[i] is Word w &&
-                    stopList.Contains(w.Value.ToLower()))
+                if (sentence.Tokens[i] is Word w && 
+                    w.IsStopWord(stopList))
                 {
                     sentence.Tokens.RemoveAt(i);
                     i--;
@@ -171,53 +164,76 @@ public static class TextProcessor
 
     public static void BuildConcordance(Text text)
     {
-        var concordance = new Dictionary<string, (int count, List<int> lines, string originalWord)>();
+        var concordance = new Dictionary<string, (int count, List<int> lines)>();
 
-        for (int lineNum = 0; lineNum < text.Sentences.Count; lineNum++)
+        int lineNumber = 1;
+
+        foreach (string line in text.Lines)
         {
-            Sentence sentence = text.Sentences[lineNum];
-            var wordInLine = new HashSet<string>();
-
-            foreach (var token in sentence.Tokens)
+            if (string.IsNullOrWhiteSpace(line))
             {
-                if (token is Word w)
+                lineNumber++;
+                continue;
+            }
+            
+            string[] words = line.Split(new[] { ' ', ',', '.', '!', '?', ';', ':', '[', ']', '{', '}', '"', '—', '\'' },
+                StringSplitOptions.RemoveEmptyEntries);
+            
+            var wordsInLine = new List<string>();
+
+            foreach (string word in words)
+            {
+                string cleanWord = word.Trim().ToLower();
+
+                if (string.IsNullOrEmpty(cleanWord))
                 {
-                    string key = w.Value.ToLower();
-                    string originalWord = w.Value;
+                    continue;
+                }
 
-                    if (!concordance.ContainsKey(key))
-                        concordance[key] = (0, new List<int>(), originalWord);
+                if (!concordance.ContainsKey(cleanWord))
+                {
+                    concordance[cleanWord] = (0, new List<int>());
+                }
+                
+                var tuple = concordance[cleanWord];
+                concordance[cleanWord] = (tuple.count + 1, tuple.lines);
 
-                    var tuple = concordance[key];
-                    tuple.count++;
-                    if (!wordInLine.Contains(key))
-                    {
-                        tuple.lines.Add(lineNum + 1);
-                        wordInLine.Add(key);
-                    }
-
-                    concordance[key] = tuple;
+                if (!wordsInLine.Contains(cleanWord))
+                {
+                    concordance[cleanWord].lines.Add(lineNumber);
+                    wordsInLine.Add(cleanWord);
                 }
             }
-        }
 
-        var sortedKeys = concordance.Keys.ToList();
+            lineNumber++;
+        }
+        
+        var sortedKeys = new List<string>(concordance.Keys);
         sortedKeys.Sort();
-
+        
         Console.WriteLine("\nКонкорданс: ");
-        foreach (string key in sortedKeys)
+
+        foreach (string word in sortedKeys)
         {
-            var tuple = concordance[key];
-            tuple.lines.Sort();
+            int totalCount = concordance[word].count;
+            List<int> lineNumbers = concordance[word].lines;
+            
+            lineNumbers.Sort();
 
-            int dotsCount = 20 - tuple.originalWord.Length;
+            string lineNumberStr = " ";
+            
+            foreach (int num in lineNumbers)
+            {
+                lineNumberStr += num.ToString();
+            }
+            
+            int dotsCount = 20 - word.Length;
             if (dotsCount < 0) dotsCount = 1;
+            
             string dots = new string('.', dotsCount);
-
-            Console.WriteLine($"{tuple.originalWord} {dots} {tuple.count}: {string.Join(", ", tuple.lines)}");
+            
+            Console.WriteLine($"{word} {dots} {totalCount}: {string.Join(", ", lineNumbers)}");
         }
-
         Console.WriteLine("Конкорданс готов!");
     }
-
 }

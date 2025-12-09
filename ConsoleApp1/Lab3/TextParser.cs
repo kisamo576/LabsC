@@ -1,5 +1,4 @@
 using System.Text;
-using System.Collections.Generic;
 
 namespace ConsoleApp1.Lab3;
 

@@ -6,7 +6,7 @@ namespace ConsoleApp1.Lab3;
 public class Sentence
 {
     [XmlIgnore]
-    public List<Token> Tokens {get; set;} =  new List<Token>();
+    public List<Token> Tokens {get;}
 
     [XmlElement("word")]
     public List<string> XmlWords
@@ -14,10 +14,6 @@ public class Sentence
         get
         {
             return Tokens.OfType<Word>().Select(w => w.Value).ToList();
-        }
-        set
-        {
-            
         }
     }
 

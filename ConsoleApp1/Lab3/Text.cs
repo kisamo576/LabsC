@@ -13,7 +13,7 @@ public class Text
     public string Fulltext { get; set; } = "";
     
     [XmlIgnore]
-    public List<string> Lines { get; set; } =  new List<string>();
+    public List<string> Lines { get; set; }
     
     public void Add(Sentence sentence)
     {

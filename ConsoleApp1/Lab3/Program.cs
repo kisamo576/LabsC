@@ -1,4 +1,3 @@
-using System.Diagnostics.Tracing;
 using ConsoleApp1.Lab3;
 using System.Xml.Serialization;
 
@@ -36,22 +35,16 @@ class Program
                     textData = sr.ReadToEnd();
                 }
                 text = TextParser.Parse(textData);
-                text.Fulltext = textData;
-                text.Lines = new List<String>();
-                text.Lines = textData.Split('\n').ToList();
                 break;
             }
             
             case "2":
             {
                 using (StreamReader sr = new StreamReader("C:\\Users\\edima\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\Lab3\\files\\text_en.txt"))
-                       {
-                           textData = sr.ReadToEnd();
-                       }
+                {
+                    textData = sr.ReadToEnd();
+                }
                 text = TextParser.Parse(textData);
-                text.Fulltext = textData;
-                text.Lines = new List<String>();
-                text.Lines = textData.Split('\n').ToList();
                 break;
             }
         }

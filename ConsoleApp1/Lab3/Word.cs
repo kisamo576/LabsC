@@ -41,7 +41,7 @@ public class Word : Token
         return consonant.Contains(firstChar);
     }
 
-    public bool IsStopWord(List<string> stopWords)
+    public bool IsStopWord(string[] stopWords)
     {
         return stopWords.Contains(Value.ToLower());
     }
