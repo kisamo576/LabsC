@@ -3,6 +3,13 @@ using System.Xml.Serialization;
 
 class Program
 {
+    // static Word dsfgfg = new Word("fdfgdf gfdfhdfgh ddfdfhdfh."); 
+    // Sentence fgefg = new  Sentence(new List<Token>
+    // {
+    //     new Word("ghbdt"),
+    //     new Word("dfgdf"),
+    //     new Punctuation(".")
+    // });    
     private static void ExportToXml(Text text, string path)
     {
         var serializer = new XmlSerializer(typeof(Text));
@@ -16,6 +23,21 @@ class Program
     }
     static void Main()
     {
+        //Word dsfgfg = new Word("fdfgdfgfdfhdfgh-ddfdfhdfh."); 
+        
+//         Sentence fgefg = new  Sentence("dfgdfgdf erger."); 
+       // Word dsfgfg = new Word("fdfgdfgfdfhdfghddfdfhdfh");
+        Sentence fgefg = new Sentence(new List<Token>
+        {
+            new Word("ghbdt"),
+            new Word("dfgdf"),
+            new Punctuation("."),
+            new Punctuation("."),
+            new Word("апдапвв"),
+            new Punctuation("."),
+        });
+     //   Console.WriteLine(dsfgfg.Value);
+        Console.WriteLine(fgefg);
         Console.WriteLine("Выберите язык текста:");
         Console.WriteLine("1 - Русский");
         Console.WriteLine("2 - Английский");

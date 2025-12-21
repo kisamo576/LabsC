@@ -12,6 +12,10 @@ public class Word : Token
         if (value.Any(char.IsWhiteSpace))
             throw new ArgumentException("Word не может содержать пробелы");
 
+        
+        if (value.Any(c => char.IsPunctuation(c) && c != '-' && c != '(' && c != ')'))
+            throw new ArgumentException("Word не может содержать Punctuation");
+
         Value = CleanWord(value);
     }
 

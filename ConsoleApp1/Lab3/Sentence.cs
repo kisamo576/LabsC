@@ -32,7 +32,53 @@ public class Sentence
             if (!(t is Word || t is Punctuation))
                 throw new ArgumentException("Sentence может содержать только Word или Punctuation");
         }
+        
+        
+        for (int i = 0; i < tokens.Count - 2; i++)
+        {
+            string first = tokens[i].Value;
+            string last = tokens[i+1].Value;
+            string third = tokens[i+2].Value;
+            
+            if (first == "." && last == "." && third == ".")
+            {
+                throw new ArgumentException("Многоточие должно быть записано как один токен, а не тремя отдельными точками!");
+            }
+        }
+        
+        int sentencEndCount = 0;
 
+        foreach (var t in tokens)
+        {
+            if (t.Value == "." || t.Value == "!" || t.Value == "?")
+            {
+                sentencEndCount++;
+            }
+            
+            if (sentencEndCount > 1)
+            {
+                throw new ArgumentException("В списке может хранится только одно предложение!");
+            }
+        }
+
+        for (int i = 0; i < tokens.Count - 1; i++)
+        {
+            string first = tokens[i].Value;
+            string last = tokens[i + 1].Value;
+
+            if ((first == "." && last == ".") ||
+                (first == "," && last == ",") ||
+                (first == ":" && last == ":") ||
+                (first == ";" && last == ";"))
+            {
+                if (first == "." && last == ".")
+                {
+                    continue;
+                }
+                
+                throw new ArgumentException("Sentence не может заканчиваться на 2 и более одинаковых знака препинания подряд!");
+            }
+        }
         Tokens = new List<Token>(tokens);
     }
 
