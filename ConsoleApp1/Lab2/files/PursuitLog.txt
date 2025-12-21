@@ -1,0 +1,18 @@
+Cat and Mouse
+
+Cat | Mouse | Distance    |   Message
+------------------------------------------
+??     ??                    (Координаты кота не инициализированы)
+??     1                    (Координаты кота не инициализированы)
+2     1       1
+--->                         Distance between = 1
+2     1       1
+--->                         Distance between = 1
+1     1       0
+------------------------------------------
+
+
+Distance traveled:   Mouse   Cat
+                     300      601
+
+Mouse caught at: 1
