@@ -11,19 +11,40 @@ public class TaxiPark
             throw new ArgumentNullException("car");
         }
         
+        foreach (var existingCar in cars)
+        {
+            if (existingCar.LicensePlate.ToUpper() == car.LicensePlate.ToUpper())
+            {
+                throw new ArgumentException($"Автомобиль с номером {car.LicensePlate} уже существует!");
+            }
+        }
+        
         cars.Add(car);
     }
 
     public void RemoveCar(string licensePlate)
     {
+        if (string.IsNullOrWhiteSpace(licensePlate))
+        {
+            Console.WriteLine("Номер не может быть пустым!");
+            return;
+        }
+        
+        string originalPlate = licensePlate;
+        licensePlate = licensePlate.Trim().ToUpper();
+        
         for (int i = 0; i < cars.Count; i++)
         {
-            if (cars[i].LicensePlate == licensePlate)
+            if (cars[i].LicensePlate.Trim().ToUpper() == licensePlate)
             {
+                string carInfo = cars[i].GetInfo();
                 cars.RemoveAt(i);
+                Console.WriteLine($"Удалён: {carInfo}");
                 return;
             }
         }
+        
+        Console.WriteLine($"Автомобиль с номером '{originalPlate}' не найден.");
     }
     
     public List<Car> GetCars() => new List<Car>(cars);
@@ -60,7 +81,11 @@ public class TaxiPark
 
     public List<Car> FindCarsByLicensePlate(string licensePlate)
     {
-        return cars.Where(car => car.LicensePlate == licensePlate).ToList();
+        if (string.IsNullOrWhiteSpace(licensePlate))
+            return new List<Car>();
+            
+        string searchPlate = licensePlate.Trim().ToUpper();
+        return cars.Where(car => car.LicensePlate.Trim().ToUpper() == searchPlate).ToList();
     }
 
     public List<Car> FindCarsByType(string type)
@@ -77,11 +102,16 @@ public class TaxiPark
         }
         
         Console.WriteLine($"===Автомобили в таксопарке:=== \n");
+        int counter = 1;
         foreach (var car in cars)
         {
-            car.DisplayInfo();
+            Console.WriteLine($"[{counter}] {car.GetInfo()}");
             Console.WriteLine();
+            counter++;
         }
+        
+        Console.WriteLine("\n---------------------------------------");
+        Console.WriteLine("Для более подробной информации выберите автомобиль в основном меню.\n");
         Console.WriteLine($"===Всего автомобилей в таксопарке: {cars.Count} ===\n");
     }
 }
