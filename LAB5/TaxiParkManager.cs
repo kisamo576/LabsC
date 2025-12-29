@@ -3,12 +3,34 @@ namespace LAB5;
 public class TaxiParkManager
 {
     private TaxiPark taxiPark;
+    private AuthService authService;
+    private User? currentUser;
     
     public TaxiParkManager()
     {
         taxiPark = TaxiPark.InitializePark();
+        authService = new AuthService();
+        currentUser = null;
     }
     
+    public User? CurrentUser => currentUser;
+    
+    public bool Login(string login, string password)
+    {
+        currentUser = authService.Login(login, password);
+        return currentUser != null;
+    }
+    
+    public bool Register(string login, string password)
+    {
+        return authService.Register(login, password);
+    }
+    
+    public void Logout() => currentUser = null;
+    
+    public bool CanAddCar => currentUser?.Role == "admin";
+    public bool CanDeleteCar => currentUser?.Role == "admin";
+
     public void ShowCars()
     {
         ConsoleHelper.ShowHeader("ВСЕ АВТОМОБИЛИ");
@@ -18,6 +40,13 @@ public class TaxiParkManager
     
     public void AddCar()
     {
+        if (!CanAddCar)
+        {
+            ConsoleHelper.ShowError("Недостаточно прав! Только администратор может добавлять автомобили.");
+            ConsoleHelper.Wait();
+            return;
+        }
+        
         ConsoleHelper.ShowHeader("ДОБАВИТЬ АВТОМОБИЛЬ");
         
         try
@@ -100,6 +129,13 @@ public class TaxiParkManager
     
     public void RemoveCar()
     {
+        if (!CanDeleteCar)
+        {
+            ConsoleHelper.ShowError("Недостаточно прав! Только администратор может удалять автомобили.");
+            ConsoleHelper.Wait();
+            return;
+        }
+        
         ConsoleHelper.ShowHeader("УДАЛИТЬ АВТОМОБИЛЬ");
     
         List<Car> cars = taxiPark.GetCars();
