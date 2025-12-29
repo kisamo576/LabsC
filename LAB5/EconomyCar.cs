@@ -33,6 +33,6 @@ public class EconomyCar : Car
     
     public override string GetInfo()
     {
-        return $"[Эконом] {Brand} {Model} ({LicensePlate}) - {Year}г, {Price}$";
+        return $"[Эконом] :{base.GetInfo()}, {Price}$";
     }
 }

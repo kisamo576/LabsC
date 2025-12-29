@@ -27,7 +27,7 @@ public abstract class Car
     public abstract void DisplayInfo();
     public abstract string GetCarType();
 
-    public virtual string GetInfo()
+    public  virtual string GetInfo()
     {
         return $"{Brand} {Model} ({LicensePlate}) - {Color}, {Year} год";
     }

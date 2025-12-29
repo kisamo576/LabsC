@@ -2,7 +2,7 @@
 
 class Program
 {
-    static TaxiPark taxiPark = InitializePark();
+    static TaxiPark taxiPark = TaxiPark.InitializePark();
     
     static void Main(string[] args)
     {
@@ -24,7 +24,7 @@ class Program
 
             
             Console.Write("\nВыбор: ");
-            string choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
             
             switch (choice)
             {
@@ -45,24 +45,7 @@ class Program
         
         Console.WriteLine("\nВыход из программы...");
     }
-
-    static TaxiPark InitializePark()
-    {
-        TaxiPark park = new TaxiPark();
-        
-        park.AddCar(new EconomyCar("Volkswagen", "Polo", "ABC123", 10000, 180, 7.0, 2015, "Белый", true));
-        park.AddCar(new EconomyCar("Renault", "Logan", "DFG321", 9000, 160, 6.5, 2018, "Синий", true));
-        park.AddCar(new EconomyCar("Skoda", "Rapid", "QWE761", 11000, 190, 8.0, 2019, "Серый", true));
-
-        park.AddCar(new BusinessCar("Mercedes", "E-Class", "MVP333", 55000, 220, 8.2, 2021, "Чёрный", true, true, true));
-        park.AddCar(new BusinessCar("BMW", "7 Series", "WOW777", 62000, 240, 9.1, 2022, "Синий", true, false, true));
-
-        park.AddCar(new SUV("Toyota", "Land Cruiser", "BIG999", 60000, 190, 12.5, 2019, "Чёрный", true, 225, 7));
-        park.AddCar(new SUV("Nissan", "X-Trail", "JAP525", 32000, 190, 9.8, 2020, "Красный", false, 210, 5));
-        
-        return park;
-    }
-
+    
     static void ShowCars()
     {
         Console.Clear();
@@ -111,7 +94,7 @@ class Program
             Console.WriteLine("Модель не может быть пустой!");
         }
         
-        string licensePlate;
+        string? licensePlate;
         while (true)
         {
             Console.Write("Номер (например, А123ВС): ");

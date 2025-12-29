@@ -40,6 +40,6 @@ public class SUV : Car
     
     public override string GetInfo()
     {
-        return $"[Внедорожник] {Brand} {Model} ({LicensePlate}) - {Year}г, {Price}$";
+        return $"[Внедорожник] {Brand} {Model} ({LicensePlate}) - {Year}г, {Price}$"; //!!!
     }
 }
