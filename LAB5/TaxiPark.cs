@@ -59,29 +59,25 @@ public class TaxiPark
         cars.Add(car);
     }
 
-    public void RemoveCar(string licensePlate)
+    public bool RemoveCar(string licensePlate)
     {
         if (string.IsNullOrWhiteSpace(licensePlate))
         {
-            Console.WriteLine("Номер не может быть пустым!");
-            return;
+            return false;
         }
-        
-        string originalPlate = licensePlate;
-        licensePlate = licensePlate.Trim().ToUpper();
-        
+    
+        string searchPlate = licensePlate.Trim().ToUpper();
+    
         for (int i = 0; i < cars.Count; i++)
         {
-            if (cars[i].LicensePlate.Trim().ToUpper() == licensePlate)
+            if (cars[i].LicensePlate.Trim().ToUpper() == searchPlate)
             {
-                string carInfo = cars[i].GetInfo();
                 cars.RemoveAt(i);
-                Console.WriteLine($"Удалён: {carInfo}");
-                return;
+                return true;
             }
         }
-        
-        Console.WriteLine($"Автомобиль с номером '{originalPlate}' не найден.");
+    
+        return false;
     }
     
     public List<Car> GetCars() => new List<Car>(cars);
@@ -130,26 +126,26 @@ public class TaxiPark
         return cars.Where(car => car.GetCarType().Equals(type, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 
-    public Car FindCar1(List<Car> test, int speed, int year)
-    {
-        speed = 220;
-        year = 1990;
-        Car car = null;
-        foreach (var value in test)
-        {
-            if (speed != speed && year != year)
-            {
-                
-            }
-            else
-            {
-                return car;
-            }
-        }
-
-        return  car;
-        //return cars.Where(car => car.Equals(speed, year)).ToList();
-    }
+    // public Car FindCar1(List<Car> test, int speed, int year)
+    // {
+    //     speed = 220;
+    //     year = 1990;
+    //     Car car = null;
+    //     foreach (var value in test)
+    //     {
+    //         if (speed != speed && year != year)
+    //         {
+    //             
+    //         }
+    //         else
+    //         {
+    //             return car;
+    //         }
+    //     }
+    //
+    //     return  car;
+    //     //return cars.Where(car => car.Equals(speed, year)).ToList();
+    // }
 
     public void PrintCars()
     {
@@ -158,16 +154,17 @@ public class TaxiPark
             Console.WriteLine("===В таксопарке нет автомобилей.===\n");
             return;
         }
-        
+    
         Console.WriteLine($"===Автомобили в таксопарке:=== \n");
         int counter = 1;
         foreach (var car in cars)
         {
-            Console.WriteLine($"[{counter}] {car.GetInfo()}");
+            Console.WriteLine($"[{counter}]");
+            car.DisplayInfo();
             Console.WriteLine();
             counter++;
         }
-        
+    
         Console.WriteLine("\n---------------------------------------");
         Console.WriteLine("Для более подробной информации выберите автомобиль в основном меню.\n");
         Console.WriteLine($"===Всего автомобилей в таксопарке: {cars.Count} ===\n");
